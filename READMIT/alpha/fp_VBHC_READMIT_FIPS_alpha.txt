@@ -1,0 +1,101 @@
+CMS - 
+
+,   Features,                                           MaxEV,                      Gini,                   Coefficients
+0,  READM-30-COPD-HRRP,                                 0.17837814302534472,    0.00976893166239216,    -0.02804399697956187
+1,  READM-30-HF-HRRP,                                   0.19035958870666347,    0.008784066628219508,   -0.10947217165192699
+2,  READM-30-PN-HRRP,                                   0.18859725122088378,    0.011994178049308244,   -0.040341762188749734
+3,  Heart failure (HF) 30-Day Readmission Rate,         0.19545411202846552,    0.1491964891795906,     0.37274618420448924
+4,  Hospital return days for heart failure patients,    0.14293602193564736,    0.013706779132328827,   0.023883177630045375
+5,  Hospital return days for pneumonia patients,        0.17336521461459406,    0.029092628080157286,   0.0429189844075111
+6,  Pneumonia (PN) 30-Day Readmission Rate,             0.1981257348142337,     0.05928229846103366,    0.21595501483474172
+7,  Rate of readmission for (COPD) patients,            0.18795777474930137,    0.022360697063397404,   0.15029373025228207
+8,  time patients spent in the ED before leaving,       0.22386427790685692,    0.006894034434052466,   0.025375848590138844
+9,  Death rate for pneumonia patients,                  0.25614080651504156,    0.006716896200475379,   -0.039511179662150044
+10, Serious complications,                              0.18326580864607236,    0.00795253415148603,    0.03259871727489144
+11, Hospital overall rating,                            0.21365562319288148,    0.012033849323572572,   -0.1276392704521975
+12, Readmission national comparison Above Average,      0.1984709104884609,     0.012961089508921558,   -0.07411332652344103
+13, Readmission national comparison Below Average,      0.19283834247405043,    0.2895228826185936,     0.08981369795763267
+
+
+ACS - 
+            Features     MaxEV      Gini  Coefficients
+0   DP02_0088PE_gini  0.077127  0.001668      0.087848  Percent Estimate!!PLACE OF BIRTH!!Total population!!Native!!Born in United States
+1   DP02_0128PE_gini  0.068855  0.001112      0.070779  
+2    DP02_0008PE_avg  0.072967  0.004756      0.106153  Percent Estimate!!HOUSEHOLDS BY TYPE!!Total households!!Family households (families)!!Female householder, no husband present, family
+3    DP02_0021PE_avg  0.071147  0.002147      0.096655
+4    DP02_0026PE_avg  0.063148  0.001065      0.082697  Percent Estimate!!MARITAL STATUS!!Males 15 years and over!!Now married, except separated
+5    DP02_0057PE_avg  0.111627  0.001331      0.102016  Percent Estimate!!SCHOOL ENROLLMENT!!Population 3 years and over enrolled in school!!College or graduate school
+6    DP02_0064PE_avg  0.062428  0.001092     -0.110960
+7    DP02_0131PE_avg  0.079393  0.002661     -0.140160
+8    DP02_0134PE_avg  0.070765  0.001324      0.102007
+9    DP03_0022PE_avg  0.064635  0.002068     -0.116886  Percent Estimate!!COMMUTING TO WORK!!Workers 16 years and over!!Walked
+10   DP03_0035PE_avg  0.077476  0.001449     -0.046156  Percent Estimate!!INDUSTRY!!Civilian employed population 16 years and over!!Manufacturing
+11   DP03_0043PE_avg  0.095358  0.001655      0.075743  Percent Estimate!!INDUSTRY!!Civilian employed population 16 years and over!!Arts, entertainment, and recreation, and accommodation and food services
+12   DP03_0074PE_avg  0.086613  0.002959     -0.101662  Percent Estimate!!INCOME AND BENEFITS (IN 2018 INFLATION-ADJUSTED DOLLARS)!!Total households!!With Food Stamp/SNAP benefits in the past 12 months
+17   DP04_0029PE_avg  0.065555  0.001235     -0.060817
+
+BEA - 0.04796921089896233
+
+            Features     MaxEV      Gini      Coefficients
+0  CAINC30_60.0_2018  0.095997  0.018881      0.372921    Income maintenance benefits 1/	Thousands of dollars
+1  CAINC30_70.0_2018  0.097428  0.010282     -0.201939    Unemployment insurance compensation	Thousands of dollars
+
+
+Selected Predictors
+
+ 0   Medicare hospital spending per patient (Medicare Spending per Beneficiary)  2243 non-null   float64
+ 1   Serious complications                                                       2243 non-null   float64
+ 2   Heart failure (HF) 30-Day Readmission Rate                                  2243 non-null   float64
+ 3   Hospital Ownership ForProfit                                                2243 non-null   float64
+ 5   Hospital overall rating                                                     2243 non-null   float64
+ 6   DP02_0008PE_avg                                                             2243 non-null   float64
+ 7   DP02_0088PE_gini                                                            2243 non-null   float64
+ 8   DP02_0026PE_avg                                                             2243 non-null   float64
+ 9   DP02_0057PE_avg                                                             2243 non-null   float64
+ 10  DP03_0022PE_avg                                                             2243 non-null   float64
+ 11  DP03_0043PE_avg                                                             2243 non-null   float64
+ 12  DP03_0035PE_avg                                                             2243 non-null   float64
+ 13  DP03_0074PE_avg                                                             2243 non-null   float64
+ 14  CAINC30_70.0_2018                                                           2243 non-null   float64
+ 15  CAINC30_60.0_2018                                                           2243 non-null   float64
+
+
+                            OLS Regression Results
+=======================================================================================
+Dep. Variable:                outcome   R-squared (uncentered):                   0.998
+Model:                            OLS   Adj. R-squared (uncentered):              0.998
+Method:                 Least Squares   F-statistic:                          6.350e+04
+Date:                Fri, 31 Jul 2020   Prob (F-statistic):                        0.00
+Time:                        14:32:39   Log-Likelihood:                         -2553.6
+No. Observations:                2243   AIC:                                      5137.
+Df Residuals:                    2228   BIC:                                      5223.
+Df Model:                          15
+Covariance Type:            nonrobust
+==============================================================================================================================================
+                                                                                 coef    std err          t      P>|t|      [0.025      0.975]
+----------------------------------------------------------------------------------------------------------------------------------------------
+Medicare hospital spending per patient (Medicare Spending per Beneficiary)     3.0637      0.222     13.813      0.000       2.629       3.499
+Serious complications                                                          0.6039      0.085      7.073      0.000       0.436       0.771
+Heart failure (HF) 30-Day Readmission Rate                                     0.3821      0.009     41.306      0.000       0.364       0.400
+Hospital Ownership ForProfit                                                  -0.0135      0.043     -0.312      0.755      -0.098       0.071
+Hospital overall rating                                                       -0.0475      0.016     -3.041      0.002      -0.078      -0.017
+DP02_0008PE_avg                                                                0.0330      0.006      5.280      0.000       0.021       0.045
+DP02_0088PE_gini                                                               2.1632      0.460      4.703      0.000       1.261       3.065
+DP02_0026PE_avg                                                                0.0425      0.003     13.789      0.000       0.036       0.049
+DP03_0022PE_avg                                                                0.0030      0.007      0.435      0.664      -0.010       0.016
+DP03_0043PE_avg                                                                0.0139      0.006      2.463      0.014       0.003       0.025
+DP03_0035PE_avg                                                                0.0118      0.003      3.957      0.000       0.006       0.018
+DP03_0074PE_avg                                                                0.0200      0.004      5.088      0.000       0.012       0.028
+CAINC30_70.0_2018                                                          -3.948e-07   4.23e-07     -0.933      0.351   -1.22e-06    4.35e-07
+CAINC30_60.0_2018                                                           6.772e-09   4.65e-08      0.146      0.884   -8.43e-08    9.79e-08
+==============================================================================
+Omnibus:                       35.061   Durbin-Watson:                   1.817
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):               47.283
+Skew:                          -0.195   Prob(JB):                     5.40e-11
+Kurtosis:                       3.595   Cond. No.                     3.37e+07
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The condition number is large, 3.37e+07. This might indicate that there are
+strong multicollinearity or other numerical problems.

@@ -1,0 +1,249 @@
+####################
+
+Finding Value: Factors Associated with Hospital Payment Adjustments from CMS for FY2020 (Florida)
+FractureProof v1.4
+DrewC!
+2020-08-14 11:10:39.482214
+
+####################
+
+Step 1: Raw Data Processing and Feature Engineering
+
+Final Payment Adjustments FY 2018-2020
+   Quantitative = 2020 VBP Adjsutment Factor
+   Binary = 0/1, No/Yes, Penalty Applied
+   quant, train, test, test2 = FY2020(Q), FY2020(B), FY2019(B), FY2018(B)
+            quant       train        test       test2
+count  159.000000  159.000000  159.000000  159.000000
+mean     0.999029    0.402516    0.352201    0.345912
+std      0.005580    0.491954    0.479165    0.477168
+min      0.984353    0.000000    0.000000    0.000000
+25%      0.995541    0.000000    0.000000    0.000000
+50%      0.998887    0.000000    0.000000    0.000000
+75%      1.002152    1.000000    1.000000    1.000000
+max      1.024937    1.000000    1.000000    1.000000
+
+CMS Hospital Compare 2018 release
+   (Rows, Columns) = (159, 151)
+   Level = Hospital
+   Year = 2018
+   Feature Engineeering = 75% nonNA, Median Imputed NA, Standard Scaled
+
+US CENSUS American Community Survey 5 Year Average by Zip Code 2018 release
+   (Rows, Columns) = (159, 944)
+   Level = Hospital
+   Year = 2018 relese, includes 5 year average for 2014-2018
+   Feature Engineeering = Gini index and Average of Zip Codes by County, 75% nonNA, Median Imputed NA, Standard Scaled
+
+HRSA Area Health Resource File by County 2018 release
+   (Rows, Columns) = (159, 1776)
+   Level = County
+   Year = 2018 release, kept features from 2015-2018
+   Feature Engineeering = 75% nonNA, Median Imputed NA, Standard Scaled
+
+####################
+
+Step 2: Initial Prediction with Closed Models
+
+CMS Hospital Compare 2018 release
+   Network = Multi-Layer Perceptron
+   Layers = Dense, Dense, Activation
+   Functions = ReLU, ReLU, Sigmoid
+   Epochs = 100
+   Targets = (train, test, test2), (FY2020, FY2019, FY2018)
+   AUC Scores
+       train = 0.984375
+       test = 0.7779126213592232
+       test = 0.6883741258741258
+
+####################
+
+Step 3: Identify Predictors with Open Models
+
+CMS Hospital Compare 2018 release
+   Models = Principal Component AnalysisRandom ForestsRecursive feature EliminationMultiple Regression
+   Values = Eigenvectors, Gini Impurity, True, OLS
+   Thresholds = Mean, Mean, Cross Validation, All
+   Outcome = quant, 2020 VBP Adjustment Factor
+       Features  RFE  Coefficients
+0    CMS_2018_5    1      0.000190
+1   CMS_2018_29    1     -0.000533
+2   CMS_2018_26    1     -0.000126
+3   CMS_2018_25    1     -0.001427
+4   CMS_2018_22    1      0.000039
+5   CMS_2018_41    1     -0.000370
+6   CMS_2018_38    1     -0.000712
+7   CMS_2018_19    1     -0.000045
+8   CMS_2018_17    1      0.000951
+9   CMS_2018_49    1     -0.000163
+10  CMS_2018_10    1      0.000245
+11   CMS_2018_9    1     -0.000751
+12  CMS_2018_51    1      0.000197
+13   CMS_2018_7    1     -0.000526
+14  CMS_2018_47    1     -0.000733
+15  CMS_2018_36    1      0.000391
+
+US CENSUS American Community Survey 5 Year Average by Zip Code 2018 release
+   Models = Principal Component AnalysisRandom ForestsRecursive feature EliminationMultiple Regression
+   Values = Eigenvectors, Gini Impurity, True, OLS
+   Thresholds = Mean, Mean, Cross Validation, All
+   Outcome = quant, 2020 VBP Adjustment Factor
+           Features  RFE     MaxEV      Gini  Coefficients
+0   DP03_0098PE_avg    1  0.066757  0.012685     -0.001880
+1  DP05_0005PE_gini    1  0.068143  0.001109      0.000944
+2  DP02_0001PE_gini    1  0.070658  0.001576     -0.006459
+3  DP04_0027PE_gini    1  0.062478  0.001636      0.005093
+4  DP04_0104PE_gini    1  0.064958  0.001844     -0.001785
+
+HRSA Area Health Resource File by County 2018 release
+   Models = Principal Component AnalysisRandom ForestsRecursive feature EliminationMultiple Regression
+   Values = Eigenvectors, Gini Impurity, Rank, OLS
+   Thresholds = Mean, Mean, Cross Validation, All
+   Outcome = quant, 2020 VBP Adjustment Factor
+   Features   RFE     MaxEV      Gini  Coefficients
+0   AHRF259  True  0.057843  0.001996      0.004770
+1  AHRF1109  True  0.055599  0.000770     -0.003344
+2   AHRF453  True  0.050406  0.001896      0.007138
+3   AHRF459  True  0.048501  0.005595     -0.003873
+4  AHRF1270  True  0.039866  0.001680     -0.004124
+
+####################
+
+Step 4: Final Prediction with Open and Closed Box Models
+
+Final Model of Identified Predictors
+   Models = Multiple Regression
+   Outcome = quant, 2020 VBP Adjustment Factor
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                  quant   R-squared:                       0.999
+Model:                            OLS   Adj. R-squared:                  0.998
+Method:                 Least Squares   F-statistic:                     5008.
+Date:                Fri, 14 Aug 2020   Prob (F-statistic):          1.01e-129
+Time:                        11:11:42   Log-Likelihood:                 200.91
+No. Observations:                 109   AIC:                            -375.8
+Df Residuals:                      96   BIC:                            -340.8
+Df Model:                          13                                         
+Covariance Type:            nonrobust                                         
+====================================================================================
+                       coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------------
+DP03_0098PE_avg      0.0039      0.001      5.038      0.000       0.002       0.005
+DP05_0005PE_gini    -0.2390      0.107     -2.234      0.028      -0.451      -0.027
+DP02_0001PE_gini     0.2465      0.485      0.508      0.613      -0.717       1.210
+DP04_0027PE_gini     0.0043      0.488      0.009      0.993      -0.964       0.972
+DP04_0104PE_gini     0.3124      0.065      4.817      0.000       0.184       0.441
+CMS_2018_29          0.0082      0.003      3.101      0.003       0.003       0.013
+CMS_2018_25          0.0142      0.006      2.446      0.016       0.003       0.026
+CMS_2018_22         -0.0011      0.006     -0.191      0.849      -0.013       0.010
+CMS_2018_17          0.0055      0.004      1.276      0.205      -0.003       0.014
+CMS_2018_10          0.0740      0.093      0.792      0.430      -0.111       0.259
+CMS_2018_9           0.0171      0.024      0.704      0.483      -0.031       0.065
+CMS_2018_7           0.1834      0.074      2.469      0.015       0.036       0.331
+CMS_2018_47          0.0113      0.004      2.800      0.006       0.003       0.019
+==============================================================================
+Omnibus:                        7.975   Durbin-Watson:                   2.130
+Prob(Omnibus):                  0.019   Jarque-Bera (JB):                8.598
+Skew:                          -0.469   Prob(JB):                       0.0136
+Kurtosis:                       4.007   Cond. No.                     8.89e+03
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The condition number is large, 8.89e+03. This might indicate that there are
+strong multicollinearity or other numerical problems.
+
+                Code  RFE                                              Label
+0    DP03_0098PE_avg    1  HEALTHINSURANCECOVERAGECiviliannoninstitutiona...
+1   DP05_0005PE_gini    1            SEXANDAGETotalpopulationUnder5yearsGini
+2   DP02_0001PE_gini    1                HOUSEHOLDSBYTYPETotalhouseholdsGini
+3   DP04_0027PE_gini    1                         ROOMSTotalhousingunitsGini
+4   DP04_0104PE_gini    1  SELECTEDMONTHLYOWNERCOSTS(SMOC)Housingunitswit...
+5        CMS_2018_29    1  Rate of unplanned hospital visits after colono...
+6        CMS_2018_25    1  Rate of readmission after discharge from hospi...
+7        CMS_2018_22    1             Pneumonia (PN) 30-Day Readmission Rate
+8        CMS_2018_17    1  Acute Myocardial Infarction (AMI) 30-Day Readm...
+9        CMS_2018_10    1                                   READM-30-PN-HRRP
+10        CMS_2018_9    1                             READM-30-HIP-KNEE-HRRP
+11        CMS_2018_7    1                                 READM-30-COPD-HRRP
+12       CMS_2018_47    1                             Left before being seen
+
+Final Model of Identified Predictors
+   Network = Multi-Layer Perceptron
+   Layers = Dense, Dense, Activation
+   Functions = ReLU, ReLU, Sigmoid
+   Epochs = 200
+   Targets = (train, test, test2), (FY2020, FY2019, FY2018)
+   AUC Scores
+       train = 0.9487179487179487
+       test = 0.7054054054054054
+       test = 0.6266233766233766
+
+####################
+
+Step 5: Final Prediction with Hand Selected Predictors
+
+Final Model of Identified Significant Predictors
+   Models = Multiple Regression
+   Outcome = quant, 2020 VBP Adjustment Factor
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                  quant   R-squared:                       0.999
+Model:                            OLS   Adj. R-squared:                  0.999
+Method:                 Least Squares   F-statistic:                 1.982e+04
+Date:                Fri, 14 Aug 2020   Prob (F-statistic):          1.06e-204
+Time:                        11:24:04   Log-Likelihood:                 311.67
+No. Observations:                 143   AIC:                            -605.3
+Df Residuals:                     134   BIC:                            -578.7
+Df Model:                           9                                         
+Covariance Type:            nonrobust                                         
+====================================================================================
+                       coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------------
+DP03_0098PE_avg      0.0015      0.000      4.541      0.000       0.001       0.002
+DP05_0005PE_gini     0.0061      0.043      0.144      0.886      -0.078       0.090
+DP04_0038PE_gini     0.0895      0.035      2.556      0.012       0.020       0.159
+CMS_2018_47          0.0046      0.003      1.614      0.109      -0.001       0.010
+CMS_2018_29          0.0063      0.002      3.926      0.000       0.003       0.010
+CMS_2018_57          0.3773      0.040      9.510      0.000       0.299       0.456
+CMS_2018_158         0.0213      0.002      9.818      0.000       0.017       0.026
+CMS_2018_160        -0.0055      0.006     -0.923      0.358      -0.017       0.006
+CMS_2018_25          0.0226      0.002      9.679      0.000       0.018       0.027
+==============================================================================
+Omnibus:                       10.216   Durbin-Watson:                   1.890
+Prob(Omnibus):                  0.006   Jarque-Bera (JB):               10.788
+Skew:                          -0.543   Prob(JB):                      0.00454
+Kurtosis:                       3.794   Cond. No.                         895.
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+
+                Code                                              Label
+0    DP03_0098PE_avg  HEALTHINSURANCECOVERAGECiviliannoninstitutiona...
+1   DP05_0005PE_gini            SEXANDAGETotalpopulationUnder5yearsGini
+2   DP04_0038PE_gini                      BEDROOMSTotalhousingunitsGini
+3        CMS_2018_47                             Left before being seen
+4        CMS_2018_29  Rate of unplanned hospital visits after colono...
+5        CMS_2018_57  Medicare hospital spending per patient (Medica...
+6       CMS_2018_158                            Hospital overall rating
+7       CMS_2018_160                       Hospital Ownership ForProfit
+8        CMS_2018_25  Rate of readmission after discharge from hospi...
+9              quant                                                NaN
+10             train                                                NaN
+11              test                                                NaN
+12             test2                                                NaN
+
+Final Model of Identified Significant Predictors
+   Network = Multi-Layer Perceptron
+   Layers = Dense, Dense, Activation
+   Functions = ReLU, ReLU, Sigmoid
+   Epochs = 200
+   Targets = (train, test, test2), (FY2020, FY2019, FY2018)
+   AUC Scores
+       train = 0.7887016229712859
+       test = 0.7157928388746803
+       test = 0.6452792553191489
+
+####################
+

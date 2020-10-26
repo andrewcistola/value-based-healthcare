@@ -1,0 +1,41 @@
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                  quant   R-squared:                       0.998
+Model:                            OLS   Adj. R-squared:                  0.998
+Method:                 Least Squares   F-statistic:                 9.667e+04
+Date:                Tue, 04 Aug 2020   Prob (F-statistic):               0.00
+Time:                        23:02:29   Log-Likelihood:                 3710.1
+No. Observations:                2145   AIC:                            -7396.
+Df Residuals:                    2133   BIC:                            -7328.
+Df Model:                          12                                         
+Covariance Type:            nonrobust                                         
+===============================================================================================================================================================================
+                                                                                                                  coef    std err          t      P>|t|      [0.025      0.975]
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Hospital Ownership ForProfit                                                                                   -0.0065      0.003     -2.521      0.012      -0.011      -0.001
+Hospital overall rating                                                                                         0.0029      0.001      2.518      0.012       0.001       0.005
+Death rate for heart failure patients                                                                           0.0095      0.001     18.167      0.000       0.008       0.011
+Patients who gave their hospital a rating of 9 or 10 on a scale from 0 (lowest) to 10 (highest)                 0.0002      0.000      0.740      0.460      -0.000       0.001
+Patients who reported that their room and bathroom were "Always" clean                                          0.0028      0.000     15.236      0.000       0.002       0.003
+Payment for heart failure patients                                                                           6.923e-06   9.39e-07      7.371      0.000    5.08e-06    8.77e-06
+TOTAL HAC SCORE                                                                                                -0.0007      0.002     -0.390      0.697      -0.004       0.003
+Patients who "Strongly Agree" that they understood their responsiblities in managing their health               0.0021      0.000      7.070      0.000       0.001       0.003
+Payment for pneumonia patients                                                                               6.963e-06   7.59e-07      9.170      0.000    5.47e-06    8.45e-06
+Medicare hospital spending per patient (Medicare Spending per Beneficiary)                                      0.2711      0.018     15.221      0.000       0.236       0.306
+Hospital return days for heart failure patients                                                               8.57e-05   4.51e-05      1.902      0.057   -2.66e-06       0.000
+Patients who reported that when receiving new medication the staff "Always" discussed possible side effects     0.0009      0.000      4.340      0.000       0.001       0.001
+==============================================================================
+Omnibus:                       10.119   Durbin-Watson:                   1.443
+Prob(Omnibus):                  0.006   Jarque-Bera (JB):               12.488
+Skew:                           0.067   Prob(JB):                      0.00194
+Kurtosis:                       3.349   Cond. No.                     4.91e+05
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The condition number is large, 4.91e+05. This might indicate that there are
+strong multicollinearity or other numerical problems.
+
+C-Statistic FY 2018 = 0.7158240555655079
+C-Statistic FY 2019 = 0.7094858141895303
+C-Statistic FY 2020 = 0.754229460379193

@@ -1,0 +1,41 @@
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                  quant   R-squared:                       0.999
+Model:                            OLS   Adj. R-squared:                  0.999
+Method:                 Least Squares   F-statistic:                 1.348e+05
+Date:                Tue, 04 Aug 2020   Prob (F-statistic):               0.00
+Time:                        11:30:16   Log-Likelihood:                 4062.3
+No. Observations:                2142   AIC:                            -8101.
+Df Residuals:                    2130   BIC:                            -8033.
+Df Model:                          12                                         
+Covariance Type:            nonrobust                                         
+======================================================================================================================================================================================================
+                                                                                                                                         coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Hospital Ownership ForProfit                                                                                                          -0.0071      0.002     -3.206      0.001      -0.011      -0.003
+Hospital overall rating                                                                                                                0.0282      0.001     35.641      0.000       0.027       0.030
+Medicare hospital spending per patient (Medicare Spending per Beneficiary)                                                             0.1883      0.016     11.843      0.000       0.157       0.219
+Rate of readmission after discharge from hospital (hospital-wide)                                                                      0.0196      0.001     17.136      0.000       0.017       0.022
+TOTAL HAC SCORE                                                                                                                       -0.0059      0.002     -3.732      0.000      -0.009      -0.003
+Average (median) time patients spent in the emergency department before leaving from the visit A lower number of minutes is better  8.417e-05   2.24e-05      3.752      0.000    4.02e-05       0.000
+Serious complications                                                                                                                  0.0626      0.004     14.638      0.000       0.054       0.071
+Heart failure (HF) 30-Day Readmission Rate                                                                                             0.0060      0.001      9.871      0.000       0.005       0.007
+Pneumonia (PN) 30-Day Readmission Rate                                                                                                 0.0082      0.001     10.799      0.000       0.007       0.010
+Payment for pneumonia patients                                                                                                      1.355e-06   6.58e-07      2.060      0.040    6.48e-08    2.64e-06
+Payment for heart failure patients                                                                                                  2.932e-06   7.96e-07      3.682      0.000    1.37e-06    4.49e-06
+test2                                                                                                                                 -0.0031      0.002     -1.721      0.085      -0.007       0.000
+==============================================================================
+Omnibus:                        8.920   Durbin-Watson:                   1.577
+Prob(Omnibus):                  0.012   Jarque-Bera (JB):                9.835
+Skew:                          -0.101   Prob(JB):                      0.00732
+Kurtosis:                       3.264   Cond. No.                     5.19e+05
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The condition number is large, 5.19e+05. This might indicate that there are
+strong multicollinearity or other numerical problems.
+
+C-Statistic FY 2018 = 0.7021341801949855
+C-Statistic FY 2019 = 0.7292599226758414
+C-Statistic FY 2020 = 0.7873088800180763

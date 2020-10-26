@@ -1,0 +1,332 @@
+####################
+
+Finding Value: Factors Associated with Hospital Payment Adjustments from CMS for FY2020 (Florida)
+FractureProof v1.4
+DrewC!
+2020-08-29 00:29:25.258265
+
+####################
+
+Step 1: Raw Data Processing and Feature Engineering
+
+Final Payment Adjustments FY 2018-2020
+   Quantitative = Overall Readmissions after Hospital Visit
+   Binary = 0/1, No/Yes
+   quant, train, test = Overall Readmissions after Hospital Visit, Above 50%, Above National Average
+            quant       train        test
+count  159.000000  159.000000  159.000000
+mean    16.013208    0.477987    0.245283
+std      1.045915    0.501093    0.431614
+min     13.700000    0.000000    0.000000
+25%     15.200000    0.000000    0.000000
+50%     16.000000    0.000000    0.000000
+75%     16.600000    1.000000    0.000000
+max     19.500000    1.000000    1.000000
+
+CMS Hospital Compare 2018 release
+   (Rows, Columns) = (159, 133)
+   Level = Hospital
+   Year = 2018
+   Feature Engineeering = 75% nonNA, Median Imputed NA, Standard Scaled
+
+HRSA Area Health Resource File by County 2018 release
+   (Rows, Columns) = (159, 1776)
+   Level = County
+   Year = 2018 release, kept features from 2015-2018
+   Feature Engineeering = 75% nonNA, Median Imputed NA, Standard Scaled
+
+####################
+
+Step 2: Initial Prediction with Closed Models
+
+CMS Hospital Compare 2018 release
+   Network = Multi-Layer Perceptron
+   Layers = Dense, Dense, Activation
+   Functions = ReLU, ReLU, Sigmoid
+   Epochs = 100
+   Targets = train, test
+   AUC Scores
+       train = 0.8092105263157895
+       test = 0.7458333333333332
+
+####################
+
+Step 3: Identify Predictors with Open Models
+
+CMS Hospital Compare 2018 release
+   Models = Principal Component AnalysisRandom ForestsRecursive feature EliminationMultiple Regression
+   Values = Eigenvectors, Gini Impurity, True, OLS
+   Thresholds = Mean, Mean, Cross Validation, All
+   Outcome = quant, 2020 VBP Adjustment Factor
+      Features   RFE  Coefficients                                              Label
+0  CMS_2018_52  True     -0.125675                        Severe Sepsis 6-Hour Bundle
+1  CMS_2018_35  True      0.261932  Appropriate care for severe sepsis and septic ...
+2  CMS_2018_33  True     -0.295707                 Emergency department volumn medium
+3  CMS_2018_32  True     -0.074566                   Emergency department volumn high
+4  CMS_2018_31  True     -0.168329              Emergency department volumn very high
+
+                                 OLS Regression Results                                
+=======================================================================================
+Dep. Variable:                  quant   R-squared (uncentered):                   0.990
+Model:                            OLS   Adj. R-squared (uncentered):              0.990
+Method:                 Least Squares   F-statistic:                              3006.
+Date:                Sat, 29 Aug 2020   Prob (F-statistic):                   3.32e-149
+Time:                        00:29:49   Log-Likelihood:                         -294.70
+No. Observations:                 156   AIC:                                      599.4
+Df Residuals:                     151   BIC:                                      614.6
+Df Model:                           5                                                  
+Covariance Type:            nonrobust                                                  
+===============================================================================
+                  coef    std err          t      P>|t|      [0.025      0.975]
+-------------------------------------------------------------------------------
+CMS_2018_52     0.1705      0.011     15.342      0.000       0.149       0.192
+CMS_2018_35    -0.0204      0.012     -1.697      0.092      -0.044       0.003
+CMS_2018_33     1.2994      0.555      2.343      0.020       0.203       2.395
+CMS_2018_32     1.9360      0.557      3.478      0.001       0.836       3.036
+CMS_2018_31     2.2428      0.521      4.301      0.000       1.213       3.273
+==============================================================================
+Omnibus:                        5.425   Durbin-Watson:                   2.036
+Prob(Omnibus):                  0.066   Jarque-Bera (JB):                5.165
+Skew:                           0.442   Prob(JB):                       0.0756
+Kurtosis:                       3.111   Cond. No.                         778.
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+
+####################
+
+Step 3: Identify Predictors with Open Models
+
+HRSA Area Health Resource File by County 2018 release
+   Models = Principal Component AnalysisRandom ForestsRecursive feature EliminationMultiple Regression
+   Values = Eigenvectors, Gini Impurity, True, OLS
+   Thresholds = Mean, Mean, Cross Validation, All
+   Outcome = quant, 2020 VBP Adjustment Factor
+
+   Features   RFE     MaxEV      Gini  Coefficients                                           Label
+0  AHRF1794  True  0.056536  0.001340     -2.947982                 Vet Disablty Compensation Recip
+1  AHRF1795  True  0.054293  0.000577      2.841750                 Vet Disbl Comp or Pension Recip
+2   AHRF337  True  0.047118  0.000994      0.557376                % 18-64 no HlthIns <=138% Povrty
+3   AHRF339  True  0.041503  0.000746     -0.638825                % 18-64 no HlthIns <=400% Povrty
+4   AHRF357  True  0.036633  0.015864      0.329954  % Medcr Benef Elig for Medcaid Fee for Service
+
+                                 OLS Regression Results                                
+=======================================================================================
+Dep. Variable:                  quant   R-squared (uncentered):                   0.981
+Model:                            OLS   Adj. R-squared (uncentered):              0.980
+Method:                 Least Squares   F-statistic:                              1568.
+Date:                Sat, 29 Aug 2020   Prob (F-statistic):                   4.24e-130
+Time:                        00:30:11   Log-Likelihood:                         -352.93
+No. Observations:                 159   AIC:                                      715.9
+Df Residuals:                     154   BIC:                                      731.2
+Df Model:                           5                                                  
+Covariance Type:            nonrobust                                                  
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+AHRF1794       0.0022      0.000      4.882      0.000       0.001       0.003
+AHRF1795      -0.0019      0.000     -4.684      0.000      -0.003      -0.001
+AHRF337        0.5381      0.205      2.623      0.010       0.133       0.943
+AHRF339       -0.1592      0.283     -0.563      0.574      -0.717       0.399
+AHRF357        0.0306      0.022      1.363      0.175      -0.014       0.075
+==============================================================================
+Omnibus:                       16.008   Durbin-Watson:                   1.593
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):               26.880
+Skew:                           0.509   Prob(JB):                     1.46e-06
+Kurtosis:                       4.739   Cond. No.                     3.63e+04
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The condition number is large, 3.63e+04. This might indicate that there are
+strong multicollinearity or other numerical problems.
+
+####################
+
+Step 4: Final Prediction with Open and Closed Box Models
+
+Final Model of Identified Predictors
+   Models = Multiple Regression
+   Outcome = quant, 2020 VBP Adjustment Factor
+                                 OLS Regression Results                                
+=======================================================================================
+Dep. Variable:                  quant   R-squared (uncentered):                   0.147
+Model:                            OLS   Adj. R-squared (uncentered):              0.090
+Method:                 Least Squares   F-statistic:                              2.566
+Date:                Sat, 29 Aug 2020   Prob (F-statistic):                     0.00685
+Time:                        01:03:01   Log-Likelihood:                         -212.98
+No. Observations:                 159   AIC:                                      446.0
+Df Residuals:                     149   BIC:                                      476.7
+Df Model:                          10                                                  
+Covariance Type:            nonrobust                                                  
+===============================================================================
+                  coef    std err          t      P>|t|      [0.025      0.975]
+-------------------------------------------------------------------------------
+AHRF1794       -2.5702      1.332     -1.930      0.056      -5.202       0.062
+AHRF1795        2.4938      1.335      1.868      0.064      -0.144       5.131
+AHRF337         0.3717      0.469      0.792      0.429      -0.555       1.299
+AHRF339        -0.4400      0.486     -0.905      0.367      -1.401       0.521
+AHRF357         0.2555      0.111      2.304      0.023       0.036       0.475
+CMS_2018_52    -0.1248      0.111     -1.125      0.262      -0.344       0.094
+CMS_2018_35     0.1905      0.108      1.764      0.080      -0.023       0.404
+CMS_2018_33    -0.2333      0.142     -1.641      0.103      -0.514       0.048
+CMS_2018_32    -0.0603      0.139     -0.433      0.665      -0.335       0.215
+CMS_2018_31    -0.1537      0.154     -1.000      0.319      -0.457       0.150
+==============================================================================
+Omnibus:                        4.585   Durbin-Watson:                   2.006
+Prob(Omnibus):                  0.101   Jarque-Bera (JB):                4.274
+Skew:                           0.298   Prob(JB):                        0.118
+Kurtosis:                       3.537   Cond. No.                         38.4
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+
+          Code   RFE     MaxEV      Gini  Coefficients                                              Label
+0     AHRF1794  True  0.056536  0.001340     -2.947982                    Vet Disablty Compensation Recip
+1     AHRF1795  True  0.054293  0.000577      2.841750                    Vet Disbl Comp or Pension Recip
+2      AHRF337  True  0.047118  0.000994      0.557376                   % 18-64 no HlthIns <=138% Povrty
+3      AHRF339  True  0.041503  0.000746     -0.638825                   % 18-64 no HlthIns <=400% Povrty
+4      AHRF357  True  0.036633  0.015864      0.329954     % Medcr Benef Elig for Medcaid Fee for Service
+5  CMS_2018_52  True       NaN       NaN     -0.125675                        Severe Sepsis 6-Hour Bundle
+6  CMS_2018_35  True       NaN       NaN      0.261932  Appropriate care for severe sepsis and septic ...
+7  CMS_2018_33  True       NaN       NaN     -0.295707                 Emergency department volumn medium
+8  CMS_2018_32  True       NaN       NaN     -0.074566                   Emergency department volumn high
+9  CMS_2018_31  True       NaN       NaN     -0.168329              Emergency department volumn very high
+
+Final Model of Identified Predictors
+   Network = Multi-Layer Perceptron
+   Layers = Dense, Dense, Activation
+   Functions = ReLU, ReLU, Sigmoid
+   Epochs = 200
+   Targets = (train, test, test2), (FY2020, FY2019, FY2018)
+   AUC Scores
+       train = 0.5738271604938271
+       test = 0.5492863514719001
+####################
+
+Step 4: Final Prediction with Open and Closed Box Models
+
+Final Model of Identified Predictors
+   Models = Multiple Regression
+   Outcome = quant, 2020 VBP Adjustment Factor
+                                 OLS Regression Results                                
+=======================================================================================
+Dep. Variable:                  quant   R-squared (uncentered):                   0.147
+Model:                            OLS   Adj. R-squared (uncentered):              0.090
+Method:                 Least Squares   F-statistic:                              2.566
+Date:                Sat, 29 Aug 2020   Prob (F-statistic):                     0.00685
+Time:                        01:04:46   Log-Likelihood:                         -212.98
+No. Observations:                 159   AIC:                                      446.0
+Df Residuals:                     149   BIC:                                      476.7
+Df Model:                          10                                                  
+Covariance Type:            nonrobust                                                  
+===============================================================================
+                  coef    std err          t      P>|t|      [0.025      0.975]
+-------------------------------------------------------------------------------
+AHRF1794       -2.5702      1.332     -1.930      0.056      -5.202       0.062
+AHRF1795        2.4938      1.335      1.868      0.064      -0.144       5.131
+AHRF337         0.3717      0.469      0.792      0.429      -0.555       1.299
+AHRF339        -0.4400      0.486     -0.905      0.367      -1.401       0.521
+AHRF357         0.2555      0.111      2.304      0.023       0.036       0.475
+CMS_2018_52    -0.1248      0.111     -1.125      0.262      -0.344       0.094
+CMS_2018_35     0.1905      0.108      1.764      0.080      -0.023       0.404
+CMS_2018_33    -0.2333      0.142     -1.641      0.103      -0.514       0.048
+CMS_2018_32    -0.0603      0.139     -0.433      0.665      -0.335       0.215
+CMS_2018_31    -0.1537      0.154     -1.000      0.319      -0.457       0.150
+==============================================================================
+Omnibus:                        4.585   Durbin-Watson:                   2.006
+Prob(Omnibus):                  0.101   Jarque-Bera (JB):                4.274
+Skew:                           0.298   Prob(JB):                        0.118
+Kurtosis:                       3.537   Cond. No.                         38.4
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+
+          Code   RFE     MaxEV      Gini  Coefficients                                              Label
+0     AHRF1794  True  0.056536  0.001340     -2.947982                    Vet Disablty Compensation Recip
+1     AHRF1795  True  0.054293  0.000577      2.841750                    Vet Disbl Comp or Pension Recip
+2      AHRF337  True  0.047118  0.000994      0.557376                   % 18-64 no HlthIns <=138% Povrty
+3      AHRF339  True  0.041503  0.000746     -0.638825                   % 18-64 no HlthIns <=400% Povrty
+4      AHRF357  True  0.036633  0.015864      0.329954     % Medcr Benef Elig for Medcaid Fee for Service
+5  CMS_2018_52  True       NaN       NaN     -0.125675                        Severe Sepsis 6-Hour Bundle
+6  CMS_2018_35  True       NaN       NaN      0.261932  Appropriate care for severe sepsis and septic ...
+7  CMS_2018_33  True       NaN       NaN     -0.295707                 Emergency department volumn medium
+8  CMS_2018_32  True       NaN       NaN     -0.074566                   Emergency department volumn high
+9  CMS_2018_31  True       NaN       NaN     -0.168329              Emergency department volumn very high
+
+Final Model of Identified Predictors
+   Network = Multi-Layer Perceptron
+   Layers = Dense, Dense, Activation
+   Functions = ReLU, ReLU, Sigmoid
+   Epochs = 200
+   Targets = (train, test, test2), (FY2020, FY2019, FY2018)
+   AUC Scores
+       train = 0.5
+       test = 0.5
+####################
+
+Step 4: Final Prediction with Open and Closed Box Models
+
+Final Model of Identified Predictors
+   Models = Multiple Regression
+   Outcome = quant, 2020 VBP Adjustment Factor
+                                 OLS Regression Results                                
+=======================================================================================
+Dep. Variable:                  quant   R-squared (uncentered):                   0.147
+Model:                            OLS   Adj. R-squared (uncentered):              0.090
+Method:                 Least Squares   F-statistic:                              2.566
+Date:                Sat, 29 Aug 2020   Prob (F-statistic):                     0.00685
+Time:                        01:05:47   Log-Likelihood:                         -212.98
+No. Observations:                 159   AIC:                                      446.0
+Df Residuals:                     149   BIC:                                      476.7
+Df Model:                          10                                                  
+Covariance Type:            nonrobust                                                  
+===============================================================================
+                  coef    std err          t      P>|t|      [0.025      0.975]
+-------------------------------------------------------------------------------
+AHRF1794       -2.5702      1.332     -1.930      0.056      -5.202       0.062
+AHRF1795        2.4938      1.335      1.868      0.064      -0.144       5.131
+AHRF337         0.3717      0.469      0.792      0.429      -0.555       1.299
+AHRF339        -0.4400      0.486     -0.905      0.367      -1.401       0.521
+AHRF357         0.2555      0.111      2.304      0.023       0.036       0.475
+CMS_2018_52    -0.1248      0.111     -1.125      0.262      -0.344       0.094
+CMS_2018_35     0.1905      0.108      1.764      0.080      -0.023       0.404
+CMS_2018_33    -0.2333      0.142     -1.641      0.103      -0.514       0.048
+CMS_2018_32    -0.0603      0.139     -0.433      0.665      -0.335       0.215
+CMS_2018_31    -0.1537      0.154     -1.000      0.319      -0.457       0.150
+==============================================================================
+Omnibus:                        4.585   Durbin-Watson:                   2.006
+Prob(Omnibus):                  0.101   Jarque-Bera (JB):                4.274
+Skew:                           0.298   Prob(JB):                        0.118
+Kurtosis:                       3.537   Cond. No.                         38.4
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+
+          Code   RFE     MaxEV      Gini  Coefficients                                              Label
+0     AHRF1794  True  0.056536  0.001340     -2.947982                    Vet Disablty Compensation Recip
+1     AHRF1795  True  0.054293  0.000577      2.841750                    Vet Disbl Comp or Pension Recip
+2      AHRF337  True  0.047118  0.000994      0.557376                   % 18-64 no HlthIns <=138% Povrty
+3      AHRF339  True  0.041503  0.000746     -0.638825                   % 18-64 no HlthIns <=400% Povrty
+4      AHRF357  True  0.036633  0.015864      0.329954     % Medcr Benef Elig for Medcaid Fee for Service
+5  CMS_2018_52  True       NaN       NaN     -0.125675                        Severe Sepsis 6-Hour Bundle
+6  CMS_2018_35  True       NaN       NaN      0.261932  Appropriate care for severe sepsis and septic ...
+7  CMS_2018_33  True       NaN       NaN     -0.295707                 Emergency department volumn medium
+8  CMS_2018_32  True       NaN       NaN     -0.074566                   Emergency department volumn high
+9  CMS_2018_31  True       NaN       NaN     -0.168329              Emergency department volumn very high
+
+Final Model of Identified Predictors
+   Network = Multi-Layer Perceptron
+   Layers = Dense, Dense, Activation
+   Functions = ReLU, ReLU, Sigmoid
+   Epochs = 200
+   Targets = (train, test, test2), (FY2020, FY2019, FY2018)
+   AUC Scores
+       train = 0.5
+       test = 0.5
+####################
+

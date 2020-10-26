@@ -1,0 +1,161 @@
+####################
+
+Finding Value: Factors Associated with Hospital Payment Adjustments from CMS for FY2020
+FractureProof v1.4
+DrewC!
+2020-08-29 01:44:11.199108
+
+####################
+
+Step 1: Raw Data Processing and Feature Engineering
+
+Hospital Wide Readmissions after Discharge
+   Quantitative = Overall Readmissions after Hospital Visit
+   Binary = 0/1, No/Yes
+   quant, train, test = Overall Readmissions after Hospital Visit, Above 50%, Above National Average
+             quant        train         test
+count  2279.000000  2279.000000  2279.000000
+mean     15.626020     0.311540     0.142606
+std       0.938992     0.463225     0.349748
+min       9.800000     0.000000     0.000000
+25%      15.000000     0.000000     0.000000
+50%      15.600000     0.000000     0.000000
+75%      16.200000     1.000000     0.000000
+max      19.500000     1.000000     1.000000
+
+CMS Hospital Compare 2018 release
+   (Rows, Columns) = (2279, 131)
+   Level = Hospital
+   Year = 2018
+   Feature Engineeering = 75% nonNA, Median Imputed NA, Standard Scaled
+
+HRSA Area Health Resource File by County 2018 release
+   (Rows, Columns) = (2279, 1745)
+   Level = County
+   Year = 2018 release, kept features from 2015-2018
+   Feature Engineeering = 75% nonNA, Median Imputed NA, Standard Scaled
+
+####################
+
+Step 2: Initial Prediction with Closed Models
+
+CMS Hospital Compare 2018 release
+   Network = Multi-Layer Perceptron
+   Layers = Dense, Dense, Activation
+   Functions = ReLU, ReLU, Sigmoid
+   Epochs = 100
+   Targets = train, test
+   AUC Scores
+       train = 0.6587218018115065
+       test = 0.6988559955908984
+
+####################
+
+Step 3: Identify Predictors with Open Models
+
+HRSA Area Health Resource File by County 2018 release
+   Models = Principal Component AnalysisRandom ForestsRecursive feature EliminationMultiple Regression
+   Values = Eigenvectors, Gini Impurity, True, OLS
+   Thresholds = Mean, Mean, Cross Validation, All
+   Outcome = quant, 2020 VBP Adjustment Factor
+
+    Features  RFE     MaxEV      Gini  Coefficients                                            Label
+0   AHRF1410    1  0.104093  0.002006      0.036768                  Percent Persons Age 0-17 in Pov
+1   AHRF1077    1  0.080204  0.419593      0.497831  Medcre Benef Hosp Readmiss Rate Fee for Service
+2    AHRF341    1  0.072996  0.000992     -7.962658                       % 40-64 without Health Ins
+3    AHRF352    1  0.072731  0.001815      4.231548                   % Fmles 40-64 without Hlth Ins
+4    AHRF355    1  0.072471  0.001119      4.049654                   % Males 40-64 without Hlth Ins
+5    AHRF354    1  0.069151  0.000714     -1.901025                   % Males 18-64 without Hlth Ins
+6    AHRF351    1  0.068697  0.001201     -1.435335                   % Fmles 18-64 without Hlth Ins
+7    AHRF349    1  0.068442  0.000678      3.437802                   % <65 without Health Insurance
+8   AHRF1073    1  0.064808  0.000734     -9.328280                Medcre Adv PtA and B Rates 5 Star
+9   AHRF1071    1  0.064808  0.000586     -9.328280                Medcre Adv PtA and B Rates 4 Star
+10  AHRF1072    1  0.064808  0.000664     -9.328280              Medcre Adv PtA and B Rates 4.5 Star
+11  AHRF1070    1  0.064413  0.000730    106.341124              Medcre Adv PtA and B Rates 3.5 Star
+12  AHRF1069    1  0.064229  0.000938    -77.964102                Medcre Adv PtA and B Rates 3 Star
+13  AHRF1079    1  0.063042  0.001838     -0.628475              MedcreAdv PtA and B Rates<=2.5 Star
+14  AHRF1074    1  0.060865  0.001406      0.581972              Medcre Adv PtA and B Rates 5% Bonus
+15  AHRF1078    1  0.060069  0.001642     -0.840682              MedcreAdv PtA and B Rate 3.5% Bonus
+16   AHRF339    1  0.060042  0.000818      4.573712                 % 18-64 no HlthIns <=400% Povrty
+17   AHRF348    1  0.058870  0.000906     -4.480369                  % <65 no HlthIns <=400% Poverty
+18  AHRF1068    1  0.055209  0.003680      0.452725              Medcre Adv PtA and B Rates 0% Bonus
+19   AHRF337    1  0.054840  0.000958      1.104044                 % 18-64 no HlthIns <=138% Povrty
+20   AHRF338    1  0.053756  0.000906     -3.087963                 % 18-64 no HlthIns <=200% Povrty
+21   AHRF347    1  0.052183  0.000688      1.637506                  % <65 no HlthIns <=200% Poverty
+22   AHRF345    1  0.051520  0.002325     -0.547882                   % <19 without Health Insurance
+23   AHRF342    1  0.049883  0.001814     -0.611600                  % <19 no HlthIns <=138% Poverty
+24   AHRF406    1  0.047199  0.000744     -1.616840                     3-Yr Hispanic Male Births-17
+25   AHRF343    1  0.046866  0.002052      0.984254                  % <19 no HlthIns <=200% Poverty
+26   AHRF397    1  0.045963  0.000680      1.601109                          3-Yr Hispanic Births-16
+27   AHRF268    1  0.044185  0.003022     -0.428343                             # NHSC FTE Providers
+28   AHRF271    1  0.043079  0.000975      0.418426                      # NHSC Sites with Providers
+
+                                 OLS Regression Results                                
+=======================================================================================
+Dep. Variable:                  quant   R-squared (uncentered):                   0.997
+Model:                            OLS   Adj. R-squared (uncentered):              0.997
+Method:                 Least Squares   F-statistic:                          2.377e+04
+Date:                Sat, 29 Aug 2020   Prob (F-statistic):                        0.00
+Time:                        01:55:18   Log-Likelihood:                         -2391.8
+No. Observations:                1911   AIC:                                      4838.
+Df Residuals:                    1884   BIC:                                      4988.
+Df Model:                          27                                                  
+Covariance Type:            nonrobust                                                  
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+AHRF1410       0.0080      0.007      1.222      0.222      -0.005       0.021
+AHRF1077       0.2538      0.013     19.988      0.000       0.229       0.279
+AHRF341        0.2621      0.796      0.329      0.742      -1.298       1.822
+AHRF352       -0.1598      0.414     -0.386      0.699      -0.971       0.652
+AHRF355       -0.1269      0.388     -0.327      0.744      -0.889       0.635
+AHRF354       -0.0420      0.097     -0.433      0.665      -0.233       0.148
+AHRF351       -0.0560      0.091     -0.616      0.538      -0.234       0.122
+AHRF349        0.2184      0.237      0.922      0.357      -0.246       0.683
+AHRF1073      -0.1611      0.470     -0.342      0.732      -1.084       0.762
+AHRF1071      -0.1611      0.470     -0.342      0.732      -1.084       0.762
+AHRF1072      -0.1611      0.470     -0.342      0.732      -1.084       0.762
+AHRF1070       1.9232      5.645      0.341      0.733      -9.148      12.995
+AHRF1069      -1.4290      4.234     -0.338      0.736      -9.732       6.874
+AHRF1079      -0.0164      0.005     -3.493      0.000      -0.026      -0.007
+AHRF1074       0.0366      0.007      4.903      0.000       0.022       0.051
+AHRF1078      -0.0515      0.011     -4.712      0.000      -0.073      -0.030
+AHRF339        0.3659      0.177      2.070      0.039       0.019       0.713
+AHRF348       -0.5678      0.218     -2.606      0.009      -0.995      -0.141
+AHRF1068       0.0340      0.004      8.005      0.000       0.026       0.042
+AHRF337        0.1423      0.060      2.387      0.017       0.025       0.259
+AHRF338       -0.3376      0.121     -2.781      0.005      -0.576      -0.100
+AHRF347        0.2787      0.112      2.482      0.013       0.058       0.499
+AHRF345       -0.0501      0.112     -0.449      0.653      -0.269       0.169
+AHRF342       -0.0123      0.117     -0.105      0.916      -0.243       0.218
+AHRF406       -0.0041      0.001     -7.660      0.000      -0.005      -0.003
+AHRF343        0.0315      0.177      0.179      0.858      -0.315       0.378
+AHRF397        0.0020      0.000      7.482      0.000       0.001       0.003
+AHRF268       -0.0237      0.006     -3.859      0.000      -0.036      -0.012
+AHRF271        0.0404      0.013      3.207      0.001       0.016       0.065
+==============================================================================
+Omnibus:                       73.792   Durbin-Watson:                   1.875
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              176.973
+Skew:                          -0.190   Prob(JB):                     3.72e-39
+Kurtosis:                       4.442   Cond. No.                     1.42e+16
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The smallest eigenvalue is 4.5e-22. This might indicate that there are
+strong multicollinearity problems or that the design matrix is singular.
+
+####################
+
+Final Model of HRSA Predictors CMS Hospital Compare Data
+   Network = Multi-Layer Perceptron
+   Layers = Dense, Dense, Activation
+   Functions = ReLU, ReLU, Sigmoid
+   Epochs = 200
+   Targets = (train, test, test2), (FY2020, FY2019, FY2018)
+   AUC Scores
+       train = 0.833011965996104
+       test = 0.8473096606566412
+
+####################
+

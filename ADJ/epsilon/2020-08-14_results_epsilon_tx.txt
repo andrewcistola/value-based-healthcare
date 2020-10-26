@@ -1,0 +1,195 @@
+####################
+
+Finding Value: Factors Associated with Hospital Payment Adjustments from CMS for FY2020 (Texas)
+FractureProof v1.4
+DrewC!
+2020-08-14 06:23:59.896895
+
+####################
+
+Step 1: Raw Data Processing and Feature Engineering
+
+Final Payment Adjustments FY 2018-2020
+   Quantitative = 2020 VBP Adjsutment Factor
+   Binary = 0/1, No/Yes, Penalty Applied
+   quant, train, test, test2 = FY2020(Q), FY2020(B), FY2019(B), FY2018(B)
+            quant       train        test       test2
+count  204.000000  204.000000  204.000000  204.000000
+mean     1.000324    0.475490    0.426471    0.441176
+std      0.005220    0.500627    0.495781    0.497749
+min      0.988706    0.000000    0.000000    0.000000
+25%      0.996793    0.000000    0.000000    0.000000
+50%      0.999625    0.000000    0.000000    0.000000
+75%      1.003680    1.000000    1.000000    1.000000
+max      1.023626    1.000000    1.000000    1.000000
+
+CMS Hospital Compare 2018 release
+   (Rows, Columns) = (204, 149)
+   Level = Hospital
+   Year = 2018
+   Feature Engineeering = 75% nonNA, Median Imputed NA, Standard Scaled
+
+US CENSUS American Community Survey 5 Year Average by Zip Code 2018 release
+   (Rows, Columns) = (204, 941)
+   Level = Hospital
+   Year = 2018 relese, includes 5 year average for 2014-2018
+   Feature Engineeering = Gini index and Average of Zip Codes by County, 75% nonNA, Median Imputed NA, Standard Scaled
+
+HRSA Area Health Resource File by County 2018 release
+   (Rows, Columns) = (204, 1766)
+   Level = County
+   Year = 2018 release, kept features from 2015-2018
+   Feature Engineeering = 75% nonNA, Median Imputed NA, Standard Scaled
+
+####################
+
+Step 2: Initial Prediction with Closed Models
+
+CMS Hospital Compare 2018 release
+   Network = Multi-Layer Perceptron
+   Layers = Dense, Dense, Activation
+   Functions = ReLU, ReLU, Sigmoid
+   Epochs = 100
+   Targets = (train, test, test2), (FY2020, FY2019, FY2018)
+   AUC Scores
+       train = 0.9793814432989691
+       test = 0.7338638373121131
+       test = 0.638888888888889
+
+####################
+
+Step 3: Identify Predictors with Open Models
+
+CMS Hospital Compare 2018 release
+   Models = Principal Component AnalysisRandom ForestsRecursive feature EliminationMultiple Regression
+   Values = Eigenvectors, Gini Impurity, True, OLS
+   Thresholds = Mean, Mean, Cross Validation, All
+   Outcome = quant, 2020 VBP Adjustment Factor
+       Features  RFE  Coefficients
+0    CMS_2018_5    1      0.000769
+1   CMS_2018_53    1      0.000589
+2   CMS_2018_52    1      0.000298
+3   CMS_2018_49    1      0.001271
+4   CMS_2018_47    1     -0.000276
+5   CMS_2018_45    1     -0.000461
+6   CMS_2018_41    1      0.000070
+7   CMS_2018_40    1     -0.000455
+8   CMS_2018_39    1     -0.001009
+9   CMS_2018_36    1      0.000679
+10  CMS_2018_35    1     -0.000293
+11  CMS_2018_34    1     -0.002027
+12  CMS_2018_33    1     -0.002655
+13  CMS_2018_32    1     -0.002960
+14  CMS_2018_54    1     -0.001001
+15  CMS_2018_30    1     -0.000264
+16  CMS_2018_31    1     -0.004030
+17  CMS_2018_28    1     -0.000580
+18   CMS_2018_7    1      0.000051
+19   CMS_2018_8    1      0.000575
+20   CMS_2018_9    1     -0.000464
+21  CMS_2018_10    1      0.000165
+22  CMS_2018_11    1     -0.001023
+23  CMS_2018_17    1     -0.000882
+24  CMS_2018_18    1      0.000286
+25  CMS_2018_20    1     -0.000754
+26  CMS_2018_22    1     -0.000080
+27  CMS_2018_25    1      0.000137
+28  CMS_2018_26    1      0.000142
+29  CMS_2018_19    1     -0.000211
+
+US CENSUS American Community Survey 5 Year Average by Zip Code 2018 release
+   Models = Principal Component AnalysisRandom ForestsRecursive feature EliminationMultiple Regression
+   Values = Eigenvectors, Gini Impurity, True, OLS
+   Thresholds = Mean, Mean, Cross Validation, All
+   Outcome = quant, 2020 VBP Adjustment Factor
+           Features  RFE     MaxEV      Gini  Coefficients
+0   DP05_0078PE_avg    1  0.068553  0.002442      0.019464
+1  DP04_0105PE_gini    1  0.060327  0.001331      0.001298
+2  DP04_0064PE_gini    1  0.064290  0.003155     -0.001620
+3   DP05_0065PE_avg    1  0.065225  0.001800     -0.019999
+4   DP04_0020PE_avg    1  0.092820  0.017497      0.000859
+5   DP05_0073PE_avg    1  0.105703  0.001354      0.001554
+
+HRSA Area Health Resource File by County 2018 release
+   Models = Principal Component AnalysisRandom ForestsRecursive feature EliminationMultiple Regression
+   Values = Eigenvectors, Gini Impurity, Rank, OLS
+   Thresholds = Mean, Mean, Cross Validation, All
+   Outcome = quant, 2020 VBP Adjustment Factor
+   Features   RFE     MaxEV      Gini  Coefficients
+0   AHRF407  True  0.048594  0.001506      0.011725
+1   AHRF408  True  0.047816  0.001261     -0.013693
+2   AHRF356  True  0.042078  0.009520     -0.006033
+3   AHRF354  True  0.037549  0.001635      0.007361
+4  AHRF1711  True  0.037536  0.001273     -0.032113
+5  AHRF1706  True  0.037335  0.000724      0.033559
+6   AHRF342  True  0.035233  0.003371      0.001002
+
+####################
+
+Step 4: Final Prediction with Open and Closed Box Models
+
+Final Model of Identified Predictors
+   Models = Multiple Regression
+   Outcome = quant, 2020 VBP Adjustment Factor
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                  quant   R-squared:                       0.998
+Model:                            OLS   Adj. R-squared:                  0.998
+Method:                 Least Squares   F-statistic:                     3840.
+Date:                Fri, 14 Aug 2020   Prob (F-statistic):          2.58e-126
+Time:                        06:25:38   Log-Likelihood:                 183.61
+No. Observations:                 111   AIC:                            -343.2
+Df Residuals:                      99   BIC:                            -310.7
+Df Model:                          12                                         
+Covariance Type:            nonrobust                                         
+====================================================================================
+                       coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------------
+DP05_0078PE_avg     -0.0401      0.017     -2.397      0.018      -0.073      -0.007
+DP04_0105PE_gini     0.0540      0.063      0.860      0.392      -0.071       0.179
+DP04_0064PE_gini     0.0358      0.045      0.797      0.427      -0.053       0.125
+DP05_0065PE_avg      0.0386      0.016      2.350      0.021       0.006       0.071
+DP05_0073PE_avg     -0.0282      0.019     -1.470      0.145      -0.066       0.010
+CMS_2018_5           0.4424      0.068      6.520      0.000       0.308       0.577
+CMS_2018_34          0.0261      0.023      1.128      0.262      -0.020       0.072
+CMS_2018_33          0.0031      0.011      0.281      0.779      -0.019       0.025
+CMS_2018_30          0.0419      0.027      1.558      0.122      -0.011       0.095
+CMS_2018_8           0.1762      0.068      2.583      0.011       0.041       0.311
+CMS_2018_10          0.2787      0.076      3.676      0.000       0.128       0.429
+CMS_2018_11         -0.0098      0.010     -0.933      0.353      -0.031       0.011
+==============================================================================
+Omnibus:                        0.212   Durbin-Watson:                   1.723
+Prob(Omnibus):                  0.900   Jarque-Bera (JB):                0.118
+Skew:                           0.080   Prob(JB):                        0.943
+Kurtosis:                       2.989   Cond. No.                         416.
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+
+                Code  RFE                                              Label
+0    DP05_0078PE_avg    1  HISPANICORLATINOANDRACETotalpopulationNotHispa...
+1   DP04_0105PE_gini    1  SELECTEDMONTHLYOWNERCOSTS(SMOC)Housingunitswit...
+2   DP04_0064PE_gini    1  HOUSEHEATINGFUELOccupiedhousingunitsBottled,ta...
+3    DP05_0065PE_avg    1  Racealoneorincombinationwithoneormoreotherrace...
+4    DP05_0073PE_avg    1  HISPANICORLATINOANDRACETotalpopulationHispanic...
+5         CMS_2018_5    1                                  READM-30-AMI-HRRP
+6        CMS_2018_34    1                    Emergency department volumn low
+7        CMS_2018_33    1                 Emergency department volumn medium
+8        CMS_2018_30    1  Ratio of unplanned hospital visits after hospi...
+9         CMS_2018_8    1                                   READM-30-HF-HRRP
+10       CMS_2018_10    1                                   READM-30-PN-HRRP
+11       CMS_2018_11    1                                    TOTAL HAC SCORE
+
+Final Model of Identified Predictors
+   Network = Multi-Layer Perceptron
+   Layers = Dense, Dense, Activation
+   Functions = ReLU, ReLU, Sigmoid
+   Targets = (train, test, test2), (FY2020, FY2019, FY2018)
+   AUC Scores
+       train = 0.7805291723202171
+       test = 0.673734610123119
+       test = 0.584368530020704
+
+####################
+

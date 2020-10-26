@@ -1,0 +1,6 @@
+,Features,MaxEV,Gini,Coefficients
+0,"Patients who reported that staff ""Always"" explained about medicines before giving it to them",0.1449162708665993,0.01098156901713443,-0.0007133468773961619
+1,"Patients who reported that their nurses ""Always"" communicated well",0.14274523275117462,0.024676318003449254,0.0006242485086770487
+2,"Patients who reported that their nurses ""Always"" listened carefully to them",0.14177544331458233,0.034614354401159037,0.0005828240447024494
+3,"Patients who reported that when receiving new medication the staff ""Always"" discussed possible side effects",0.13526654623891896,0.008278048426408917,0.002342003126529747
+4,Hospital overall rating,0.14266892503547385,0.016660730812812077,0.002060752308590704

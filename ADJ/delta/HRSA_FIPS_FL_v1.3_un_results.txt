@@ -1,0 +1,40 @@
+FractureProof Final Payment Adjustments from CMS with HRSA County Data in FLorida
+HRSA Predictors by County in FL
+(67, 101)
+
+Identified Clusters
+count    67.000000
+mean      1.119403
+std       0.370192
+min       1.000000
+25%       1.000000
+50%       1.000000
+75%       1.000000
+max       3.000000
+Name: Cluster, dtype: float64
+
+Cluster 1 - Significant Predictors
+                                  Features  Coefficients
+0     CertRegistNursAnesth,Male w/NPI 2018      0.008232
+1     Adv Prct Regist Nurs,Male w/NPI 2018     -0.019578
+2  Total Births July 1, 2017-June 30, 2018      0.008194
+3  Marketplace Enrollees, Active Enrl 2018      0.004258
+4      # Medicare Advantage Enrollees 2018     -0.004135
+
+Cluster 2 - Significant Predictors
+                                   Features  Coefficients
+1         # Skilled Nursing Facilities 2018  2.120354e+10
+2              Podiatrists, Male w/NPI 2018  8.833881e+09
+0         Physician Assist, Male w/NPI 2018  7.532080e+09
+9       # Medicare Presc Drug Plan Enr 2018  3.012446e+09
+3            Chiropractors, Male w/NPI 2018  1.528381e+09
+7       Pop Estimate in Group Quarters 2018 -7.807137e+08
+4                  Chiropractors w/NPI 2018 -9.688968e+09
+8  Medcre Adv PtA and B Rates 0% Bonus 2018 -9.828874e+09
+5          Skilled Nurs Fac Total Beds 2018 -1.075599e+10
+6      Skilled Nurs Fac Certified Beds 2018 -1.569186e+10
+
+Cluster 3 - Significant Predictors
+Empty DataFrame
+Columns: [Features, Coefficients]
+Index: []

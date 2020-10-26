@@ -1,0 +1,58 @@
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                  quant   R-squared:                       1.000
+Model:                            OLS   Adj. R-squared:                  1.000
+Method:                 Least Squares   F-statistic:                 2.386e+04
+Date:                Sat, 08 Aug 2020   Prob (F-statistic):          8.32e-235
+Time:                        01:27:45   Log-Likelihood:                 399.84
+No. Observations:                 158   AIC:                            -767.7
+Df Residuals:                     142   BIC:                            -718.7
+Df Model:                          16                                         
+Covariance Type:            nonrobust                                         
+==============================================================================================================================================
+                                                                                 coef    std err          t      P>|t|      [0.025      0.975]
+----------------------------------------------------------------------------------------------------------------------------------------------
+Marketplace Enrollees, Active Enrl 2018                                    -5.425e-07   1.54e-07     -3.525      0.001   -8.47e-07   -2.38e-07
+# Medicare Advantage Enrollees 2018                                         4.735e-07   1.06e-07      4.460      0.000    2.64e-07    6.83e-07
+Chiropractors w/NPI 2018                                                    -5.41e-05   1.76e-05     -3.065      0.003    -8.9e-05   -1.92e-05
+DP02_0047PE_avg                                                                0.0056      0.001      5.896      0.000       0.004       0.008
+DP02_0124PE_gini                                                               0.1360      0.021      6.504      0.000       0.095       0.177
+DP03_0008PE_avg                                                             1.129e-05   1.02e-06     11.092      0.000    9.28e-06    1.33e-05
+DP03_0034PE_avg                                                                0.0112      0.001      7.600      0.000       0.008       0.014
+DP04_0139PE_gini                                                               0.1406      0.030      4.620      0.000       0.080       0.201
+DP04_0086PE_avg                                                                0.0024      0.001      4.188      0.000       0.001       0.004
+DP05_0040PE_avg                                                                0.1374      0.031      4.470      0.000       0.077       0.198
+DP05_0077PE_avg                                                                0.0019      0.000      6.673      0.000       0.001       0.002
+Death rate for pneumonia patients                                              0.0025      0.001      2.836      0.005       0.001       0.004
+Medicare hospital spending per patient (Medicare Spending per Beneficiary)     0.1785      0.039      4.619      0.000       0.102       0.255
+Rate of readmission after discharge from hospital (hospital-wide)              0.0145      0.002      8.762      0.000       0.011       0.018
+Hospital overall rating                                                        0.0130      0.002      7.143      0.000       0.009       0.017
+Hospital Ownership ForProfit                                                  -0.0093      0.004     -2.465      0.015      -0.017      -0.002
+==============================================================================
+Omnibus:                       11.757   Durbin-Watson:                   1.630
+Prob(Omnibus):                  0.003   Jarque-Bera (JB):               29.223
+Skew:                           0.127   Prob(JB):                     4.51e-07
+Kurtosis:                       5.092   Cond. No.                     4.05e+06
+==============================================================================
+
+DP02_0047PE_avg  Grandparents responsible for grandchildren for 3 or 4 years AVG
+DP02_0124PE_gini Population Arab Ancestry GINI
+DP03_0008PE_avg	 Civilian labor force AVG
+DP03_0034PE_avg	 Civilian employed population 16 years and over in Construction AVG
+DP04_0139PE_gini GROSS RENT AS A PERCENTAGE OF HOUSEHOLD INCOME 20.0 to 24.9 percent GINI
+DP04_0086PE_avg	 VALUE Owner-occupied units $300,000 to $499,999 AVG
+DP05_0040PE_avg	 Population American Indian and Alaska Native Cherokee tribal grouping AVG
+DP05_0077PE_avg  Population Non-Hispanic White AVG
+
+       ROC Test - Area Under the Curve Results
+=====================================================
+
+Hospital Received Penalty FY 2018: C-Statistic = 0.84
+Hospital Received Penalty FY 2019: C-Statistic = 0.83
+Hospital Received Penalty FY 2020: C-Statistic = 0.86
+
+Hospital Received Bonus FY 2018: C-Statistic = 0.69
+Hospital Received Bonus FY 2019: C-Statistic = 0.84
+Hospital Received Bonus FY 2020: C-Statistic = 0.96
+
+=====================================================

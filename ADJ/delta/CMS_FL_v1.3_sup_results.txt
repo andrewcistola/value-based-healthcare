@@ -1,0 +1,13 @@
+FractureProof Final Payment Adjustments from CMS with Hopsital Predictorsamong Florida Hospitals
+CMS Quality Metrics by Hospital in FLorida
+(161, 169)
+
+Significant Quality Metrics
+['Hospital overall rating', 'Death rate for pneumonia patients', 'TOTAL HAC SCORE', 'Patients who "Strongly Agree" that they understood their responsiblities in managing their health', 'Patients who "Strongly Agree" they understood their care when they left the hospital']
+
+                                            Features     MaxEV      Gini  Coefficients
+0                            Hospital overall rating  0.178767  0.098389      0.001240
+1                  Death rate for pneumonia patients  0.134466  0.053363     -0.001468
+2                                    TOTAL HAC SCORE  0.131517  0.128215     -0.001876
+3  Patients who "Strongly Agree" that they unders...  0.129634  0.007802      0.004625
+4  Patients who "Strongly Agree" they understood ...  0.128388  0.006939     -0.003341

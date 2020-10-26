@@ -1,0 +1,15 @@
+,Features,MaxEV,Gini,Coefficients
+0,Weighted Person and Community Engagement Domain Score,0.0643266825437023,0.001306110213334436,0.012228608047268223
+1,Weighted Efficiency and Cost Reduction Domain Score,0.05719138882167994,0.6888161782074265,-0.042152966719454524
+2,Total Performance Score,0.05136151725927939,0.0004864848362348188,-0.005166761252693424
+3,Payment for heart failure patients,0.04714825576156592,0.014065555325496177,0.01225225612279733
+4,Payment for pneumonia patients,0.04631287354299237,0.06409391317523508,0.012116341003365895
+5,"Patients who ""Agree"" that they understood the purposes of their medications when leaving the hospital",0.05966056940672008,0.000655805900768151,-0.006674127674356886
+6,"Patients who ""Agree"" that they understood their responsiblities in managing their health",0.0629746752567121,0.00046525730799249697,0.008669371013000905
+7,"Patients who ""Strongly Agree"" that the staff took my preferences into account when determining my health care needs",0.06862555841141071,0.0005289041192515278,-0.020762685304526855
+8,"Patients who ""Strongly Agree"" that they understood their responsiblities in managing their health",0.06870238678272893,0.00045197403598287885,-0.006739380744377895
+9,"Patients who ""Strongly Agree"" they understood their care when they left the hospital",0.07060734761498833,0.0005986431753486815,0.006427850394168975
+10,Patients who gave their hospital a rating of 6 or lower on a scale from 0 (lowest) to 10 (highest),0.06319710536599105,0.0006487168310271922,0.007178630435628148
+11,Patients who gave their hospital a rating of 7 or 8 on a scale from 0 (lowest) to 10 (highest),0.059738192017496444,0.0006098452538703623,-0.0019400953084611782
+12,Patients who gave their hospital a rating of 9 or 10 on a scale from 0 (lowest) to 10 (highest),0.06760289927370135,0.001400173757485239,-0.11822235019402884
+13,"Patients who reported NO, they would probably not or definitely not recommend the hospital",0.0586924706531348,0.0005789118774896981,0.11916344982479483

@@ -1,0 +1,170 @@
+####################
+
+Finding Value: Factors Associated with Hospital Payment Adjustments from CMS for FY2020 (Florida)
+FractureProof v1.4
+DrewC!
+2020-08-28 21:57:21.236155
+
+####################
+
+Step 1: Raw Data Processing and Feature Engineering
+
+Final Payment Adjustments FY 2018-2020
+   Quantitative = 2020 VBP Adjsutment Factor
+   Binary = 0/1, No/Yes, Penalty Applied
+   quant, train, test, test2 = FY2020(Q), FY2020(B), FY2019(B), FY2018(B)
+            quant       train        test       test2
+count  159.000000  159.000000  159.000000  159.000000
+mean    16.013208    0.276730    0.616352    0.345912
+std      1.045915    0.448795    0.487810    0.477168
+min     13.700000    0.000000    0.000000    0.000000
+25%     15.200000    0.000000    0.000000    0.000000
+50%     16.000000    0.000000    1.000000    0.000000
+75%     16.600000    1.000000    1.000000    1.000000
+max     19.500000    1.000000    1.000000    1.000000
+
+CMS Hospital Compare 2018 release
+   (Rows, Columns) = (159, 141)
+   Level = Hospital
+   Year = 2018
+   Feature Engineeering = 75% nonNA, Median Imputed NA, Standard Scaled
+
+US CENSUS American Community Survey 5 Year Average by Zip Code 2018 release
+   (Rows, Columns) = (159, 944)
+   Level = Hospital
+   Year = 2018 relese, includes 5 year average for 2014-2018
+   Feature Engineeering = Gini index and Average of Zip Codes by County, 75% nonNA, Median Imputed NA, Standard Scaled
+
+HRSA Area Health Resource File by County 2018 release
+   (Rows, Columns) = (159, 1776)
+   Level = County
+   Year = 2018 release, kept features from 2015-2018
+   Feature Engineeering = 75% nonNA, Median Imputed NA, Standard Scaled
+
+####################
+
+Step 2: Initial Prediction with Closed Models
+
+CMS Hospital Compare 2018 release
+   Network = Multi-Layer Perceptron
+   Layers = Dense, Dense, Activation
+   Functions = ReLU, ReLU, Sigmoid
+   Epochs = 100
+   Targets = (train, test, test2), (FY2020, FY2019, FY2018)
+   AUC Scores
+       train = 0.8409090909090908
+       test = 0.3338909334225494
+       test2 = 0.675437062937063
+
+####################
+
+Step 3: Identify Predictors with Open Models
+
+CMS Hospital Compare 2018 release
+   Models = Principal Component AnalysisRandom ForestsRecursive feature EliminationMultiple Regression
+   Values = Eigenvectors, Gini Impurity, True, OLS
+   Thresholds = Mean, Mean, Cross Validation, All
+   Outcome = quant, 2020 VBP Adjustment Factor
+      Features  RFE  Coefficients
+0  CMS_2018_12    1      0.249152
+1  CMS_2018_13    1     -0.146363
+2  CMS_2018_14    1      0.069382
+3  CMS_2018_16    1     -0.317111
+4  CMS_2018_32    1      0.132829
+
+US CENSUS American Community Survey 5 Year Average by Zip Code 2018 release
+   Models = Principal Component AnalysisRandom ForestsRecursive feature EliminationMultiple Regression
+   Values = Eigenvectors, Gini Impurity, True, OLS
+   Thresholds = Mean, Mean, Cross Validation, All
+   Outcome = quant, 2020 VBP Adjustment Factor
+           Features  RFE     MaxEV      Gini  Coefficients
+0  DP02_0148PE_gini    1  0.058970  0.001971     -0.127496
+1  DP02_0096PE_gini    1  0.072735  0.001433     -0.414136
+2  DP05_0049PE_gini    1  0.070811  0.003439      0.270782
+3   DP02_0084PE_avg    1  0.063389  0.031929     -0.272056
+4  DP03_0032PE_gini    1  0.075151  0.002282      0.562294
+5  DP03_0121PE_gini    1  0.062827  0.001155     -0.299793
+
+HRSA Area Health Resource File by County 2018 release
+   Models = Principal Component AnalysisRandom ForestsRecursive feature EliminationMultiple Regression
+   Values = Eigenvectors, Gini Impurity, Rank, OLS
+   Thresholds = Mean, Mean, Cross Validation, All
+   Outcome = quant, 2020 VBP Adjustment Factor
+   Features   RFE     MaxEV      Gini  Coefficients
+0   AHRF629  True  0.056823  0.000628      0.780937
+1    AHRF27  True  0.047545  0.001805      0.856056
+2   AHRF712  True  0.047445  0.000678      1.243568
+3  AHRF1296  True  0.046428  0.003465     -0.726624
+4   AHRF787  True  0.045508  0.000814      0.348208
+5   AHRF978  True  0.041157  0.000716     -5.149182
+6  AHRF1750  True  0.040743  0.000970      4.506821
+7   AHRF933  True  0.039912  0.000564     -1.187081
+
+####################
+
+Step 4: Final Prediction with Open and Closed Box Models
+
+Final Model of Identified Predictors
+   Models = Multiple Regression
+   Outcome = quant, 2020 VBP Adjustment Factor
+                                 OLS Regression Results                                
+=======================================================================================
+Dep. Variable:                  quant   R-squared (uncentered):                   0.985
+Model:                            OLS   Adj. R-squared (uncentered):              0.984
+Method:                 Least Squares   F-statistic:                              892.5
+Date:                Fri, 28 Aug 2020   Prob (F-statistic):                   6.64e-128
+Time:                        21:59:33   Log-Likelihood:                         -327.12
+No. Observations:                 157   AIC:                                      676.2
+Df Residuals:                     146   BIC:                                      709.9
+Df Model:                          11                                                  
+Covariance Type:            nonrobust                                                  
+====================================================================================
+                       coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------------
+AHRF629              0.1257      0.055      2.266      0.025       0.016       0.235
+AHRF1296            -0.0203      0.123     -0.165      0.869      -0.264       0.223
+AHRF787              0.3961      0.370      1.072      0.286      -0.334       1.126
+DP02_0148PE_gini     2.0994      1.772      1.185      0.238      -1.402       5.601
+DP02_0096PE_gini    -3.7806      4.980     -0.759      0.449     -13.624       6.062
+DP05_0049PE_gini     8.0773      1.743      4.635      0.000       4.633      11.522
+DP02_0084PE_avg      0.1720      0.113      1.516      0.132      -0.052       0.396
+DP03_0032PE_gini    17.4921      6.705      2.609      0.010       4.240      30.744
+DP03_0121PE_gini     4.8064      2.334      2.060      0.041       0.195       9.418
+CMS_2018_13          0.1009      0.035      2.893      0.004       0.032       0.170
+CMS_2018_32          0.3360      0.391      0.859      0.392      -0.437       1.109
+==============================================================================
+Omnibus:                        4.595   Durbin-Watson:                   1.872
+Prob(Omnibus):                  0.101   Jarque-Bera (JB):                6.176
+Skew:                           0.040   Prob(JB):                       0.0456
+Kurtosis:                       3.968   Cond. No.                         685.
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+
+                Code  RFE                                              Label
+0            AHRF629    1                     DO's, Gen Pract, Total Non-Fed
+1           AHRF1296    1                     Other Specialty, 65-74 Non-Fed
+2            AHRF787    1                 Gastroenterology, Research Non-Fed
+3   DP02_0148PE_gini    1                   ANCESTRYTotalpopulationWelshGini
+4   DP02_0096PE_gini    1  YEAROFENTRYPopulationbornoutsidetheUnitedState...
+5   DP05_0049PE_gini    1          RACETotalpopulationOneraceAsianKoreanGini
+6    DP02_0084PE_avg    1  RESIDENCE1YEARAGOPopulation1yearandoverDiffere...
+7   DP03_0032PE_gini    1  INDUSTRYCivilianemployedpopulation16yearsandov...
+8   DP03_0121PE_gini    1  PERCENTAGEOFFAMILIESANDPEOPLEWHOSEINCOMEINTHEP...
+9        CMS_2018_13    1  Weighted Person and Community Engagement Domai...
+10       CMS_2018_32    1                   Emergency department volumn high
+
+Final Model of Identified Predictors
+   Network = Multi-Layer Perceptron
+   Layers = Dense, Dense, Activation
+   Functions = ReLU, ReLU, Sigmoid
+   Epochs = 200
+   Targets = (train, test, test2), (FY2020, FY2019, FY2018)
+   AUC Scores
+       train = 0.5
+       test = 0.5
+       test2 = 0.5
+
+####################
+

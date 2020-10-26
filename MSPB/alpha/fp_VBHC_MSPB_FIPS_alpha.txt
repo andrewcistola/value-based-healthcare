@@ -1,0 +1,122 @@
+CMS - 0.47745653827455403
+
+                                    Features     MaxEV      Gini  Coefficients
+0         Payment for heart failure patients  0.816341  0.024664      0.000017
+1  Payment for hip/knee replacement patients  0.793541  0.025566      0.000008
+2             Payment for pneumonia patients  0.649829  0.073008      0.000012
+
+ACS - 0.33638971518674365
+
+            Features     MaxEV      Gini  Coefficients
+0   DP02_0102PE_gini  0.076295  0.002884     -0.007485  Percent Estimate!!YEAR OF ENTRY!!Population born outside the United States!!Foreign born!!Entered before 2010
+1   DP02_0137PE_gini  0.063946  0.001239      0.008620
+2   DP04_0014PE_gini  0.063651  0.001341      0.005136
+3   DP04_0070PE_gini  0.101060  0.001320      0.005184
+4   DP04_0086PE_gini  0.085595  0.001591     -0.004511
+5    DP02_0004PE_avg  0.079157  0.001224      0.010687
+6    DP02_0019PE_avg  0.062940  0.001208     -0.007120
+7    DP02_0057PE_avg  0.111936  0.001592      0.005124
+8    DP02_0060PE_avg  0.085832  0.001291     -0.004189
+9    DP02_0083PE_avg  0.079599  0.001175     -0.004773
+10   DP02_0102PE_avg  0.088496  0.001299     -0.008386
+11   DP02_0112PE_avg  0.091052  0.003011     -0.007302
+12   DP02_0114PE_avg  0.104400  0.009335     -0.019428
+13   DP02_0123PE_avg  0.075976  0.001240      0.003122
+14   DP02_0135PE_avg  0.063887  0.003664      0.008129
+15   DP03_0007PE_avg  0.066197  0.003094      0.010004
+16   DP03_0022PE_avg  0.064713  0.001279     -0.005307
+17   DP03_0097PE_avg  0.103172  0.001120     -0.017488  Percent Estimate!!HEALTH INSURANCE COVERAGE!!Civilian noninstitutionalized population!!With health insurance coverage!!With private health insurance
+18   DP03_0098PE_avg  0.063149  0.002865     -0.011823
+19   DP03_0101PE_avg  0.066469  0.002006      0.004879
+20   DP03_0106PE_avg  0.084238  0.001513      0.012568
+21   DP03_0107PE_avg  0.065821  0.001417      0.002990
+23   DP03_0112PE_avg  0.068496  0.001511     -0.003091
+24   DP03_0116PE_avg  0.094585  0.001545     -0.004499
+25   DP03_0117PE_avg  0.065970  0.001384     -0.008841
+26   DP03_0118PE_avg  0.089352  0.001867     -0.004468
+27   DP03_0125PE_avg  0.074134  0.001406     -0.003587
+28   DP04_0018PE_avg  0.080446  0.001532      0.005666
+29   DP04_0020PE_avg  0.079822  0.001115     -0.006099
+30   DP04_0024PE_avg  0.091210  0.002492      0.002814
+31   DP04_0036PE_avg  0.084747  0.001083     -0.009412
+32   DP04_0052PE_avg  0.066234  0.001882      0.004189
+33   DP04_0063PE_avg  0.082939  0.006093      0.016118
+34   DP04_0065PE_avg  0.101920  0.001082      0.015195
+35   DP04_0071PE_avg  0.136201  0.001265      0.004252
+36   DP04_0077PE_avg  0.082843  0.001118     -0.006129
+37   DP04_0083PE_avg  0.108882  0.001185      0.010058
+38   DP04_0092PE_avg  0.063940  0.005103      0.004160
+39   DP04_0105PE_avg  0.101032  0.004685     -0.002358
+40   DP04_0108PE_avg  0.073341  0.003644      0.014273
+41   DP05_0038PE_avg  0.071502  0.025961      0.130833  Percent Estimate!!RACE!!Total population!!One race!!Black or African American
+42   DP05_0059PE_avg  0.066607  0.001147      0.011917
+43   DP05_0065PE_avg  0.072179  0.004637     -0.139698
+44   DP05_0071PE_avg  0.106081  0.041494      0.036909
+45   DP05_0076PE_avg  0.099554  0.005934      0.010591
+46   DP05_0078PE_avg  0.073200  0.019076      0.011114
+47   DP05_0085PE_avg  0.156136  0.001227     -0.009392
+48   DP05_0009PE_avg  0.109052  0.001216     -0.004212
+
+
+BEA - 0.09166731129748606
+
+            Features     MaxEV      Gini  Coefficients
+0  CAINC30_210.0_2018  0.105059  0.016424     -0.442823
+1  CAINC30_230.0_2018  0.105045  0.014914      0.439718 Nonfarm proprietors' income	Thousands of dollars
+2  CAINC30_280.0_2018  0.105651  0.019430      0.026510 Nonfarm proprietors employment	Number of jobs
+3    CAINC4_70.0_2018  0.105059  0.015823     -0.442823
+4    CAINC4_72.0_2018  0.105045  0.014286      0.439718
+
+Int64Index: 2243 entries, 0 to 2242
+Data columns (total 12 columns):
+ #   Column                                                             Non-Null Count  Dtype
+---  ------                                                             --------------  -----
+ 0   Payment for heart failure patients                                 2243 non-null   float64
+ 1   Payment for hip/knee replacement patients                          2243 non-null   float64
+ 2   Payment for pneumonia patients                                     2243 non-null   float64
+ 3   Hospital Ownership ForProfit                                       2243 non-null   float64
+ 4   outcome                                                            2243 non-null   float64
+ 5   Rate of readmission after discharge from hospital (hospital-wide)  2243 non-null   float64
+ 6   Hospital overall rating                                            2243 non-null   float64
+ 7   DP05_0038PE_avg                                                    2243 non-null   float64
+ 8   DP03_0097PE_avg                                                    2243 non-null   float64
+ 9   DP02_0102PE_gini                                                   2243 non-null   float64
+ 10  CAINC30_230.0_2018                                                 2243 non-null   float64
+ 11  CAINC30_280.0_2018                                                 2243 non-null   float64
+
+
+OLS Regression Results
+=======================================================================================
+Dep. Variable:                outcome   R-squared (uncentered):                   0.997
+Model:                            OLS   Adj. R-squared (uncentered):              0.997
+Method:                 Least Squares   F-statistic:                          7.676e+04
+Date:                Fri, 31 Jul 2020   Prob (F-statistic):                        0.00
+Time:                        15:52:15   Log-Likelihood:                          3495.7
+No. Observations:                2243   AIC:                                     -6969.
+Df Residuals:                    2232   BIC:                                     -6906.
+Df Model:                          11
+Covariance Type:            nonrobust
+=====================================================================================================================================
+                                                                        coef    std err          t      P>|t|      [0.025      0.975]
+-------------------------------------------------------------------------------------------------------------------------------------
+Payment for heart failure patients                                 1.963e-05   9.93e-07     19.767      0.000    1.77e-05    2.16e-05
+Payment for hip/knee replacement patients                           8.49e-06   5.33e-07     15.942      0.000    7.45e-06    9.53e-06
+Hospital Ownership ForProfit                                          0.0029      0.003      1.009      0.313      -0.003       0.009
+Rate of readmission after discharge from hospital (hospital-wide)     0.0135      0.001     14.885      0.000       0.012       0.015
+Hospital overall rating                                              -0.0002      0.001     -0.239      0.811      -0.002       0.002
+DP05_0038PE_avg                                                       0.0004   9.25e-05      4.224      0.000       0.000       0.001
+DP03_0097PE_avg                                                       0.0005      0.000      4.238      0.000       0.000       0.001
+DP02_0102PE_gini                                                      0.0120      0.007      1.685      0.092      -0.002       0.026
+CAINC30_230.0_2018                                                 4.244e-10   2.73e-10      1.552      0.121   -1.12e-10    9.61e-10
+CAINC30_280.0_2018                                                 -9.96e-09   1.44e-08     -0.689      0.491   -3.83e-08    1.84e-08
+==============================================================================
+Omnibus:                      174.577   Durbin-Watson:                   1.624
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              729.201
+Skew:                           0.263   Prob(JB):                    4.53e-159
+Kurtosis:                       5.743   Cond. No.                     5.83e+07
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The condition number is large, 5.83e+07. This might indicate that there are
+strong multicollinearity or other numerical problems.

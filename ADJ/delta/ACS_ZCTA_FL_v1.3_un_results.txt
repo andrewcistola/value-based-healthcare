@@ -1,0 +1,42 @@
+FractureProof Final Payment Adjustments from CMS with HRSA and ACS Data in FLorida
+ACS Predictors by Zip Code in FL
+(67, 984)
+
+Identified Clusters
+count    67.000000
+mean      1.865672
+std       0.625119
+min       1.000000
+25%       1.000000
+50%       2.000000
+75%       2.000000
+max       3.000000
+Name: Cluster, dtype: float64
+
+Cluster 1 - Significant Predictors
+            Features  Coefficients
+10   DP03_0034PE_avg      0.000211  INDUSTRYCivilianemployedpopulation16yearsandoverConstructionAVG
+8    DP02_0047PE_avg      0.000158  GRANDPARENTSNumberofgrandparentslivingwithowngrandchildrenunder18yearsYearsresponsibleforgrandchildren3or4yearsAVG
+5   DP05_0066PE_gini      0.000136
+1   DP02_0124PE_gini      0.000103  ANCESTRYTotalpopulationArabGINI
+7    DP02_0037PE_avg      0.000071  FERTILITYNumberofwomen15to50yearsoldwhohadabirthinthepast12monthsUnmarriedwomen(widowed,divorced,andnevermarried)Gini
+2   DP02_0148PE_gini      0.000068  INCOMEANDBENEFITS(IN2018INFLATION-ADJUSTEDDOLLARS)Families$100,000to$149,999Gini
+3   DP03_0083PE_gini      0.000055
+6    DP02_0017PE_avg      0.000035
+9    DP02_0092PE_avg      0.000004
+11   DP03_0064PE_avg      0.000003
+12   DP04_0108PE_avg      0.000002
+14  Benign_R1000_avg     -0.000002
+4   DP04_0099PE_gini     -0.000015
+0   DP02_0064PE_gini     -0.000077
+13   DP05_0040PE_avg     -0.000528  RACETotalpopulationOneraceAmericanIndianandAlaskaNativeCherokeetribalgroupingAVG
+
+Cluster 2 - Significant Predictors
+           Features  Coefficients
+2   DP04_0086PE_avg      0.009074   VALUEOwner-occupiedunits$300,000to$499,999AVG
+3   DP05_0077PE_avg      0.006803   HISPANICORLATINOANDRACETotalpopulationNotHispanicorLatinoWhitealoneGini
+0   DP04_0139PE_gini     0.004246   GROSSRENTASAPERCENTAGEOFHOUSEHOLDINCOME(GRAPI)Occupiedunitspayingrent(excludingunitswhereGRAPIcannotbecomputed)20.0to24.9percentGini
+1   DP03_0008PE_avg     -0.010788   EMPLOYMENTSTATUSCivilianlaborforceAVG
+
+Cluster 3 - Significant Predictors
+

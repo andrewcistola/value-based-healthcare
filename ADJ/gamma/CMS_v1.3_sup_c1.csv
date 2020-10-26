@@ -1,0 +1,11 @@
+,Features,MaxEV,Gini,Coefficients
+0,Hospital return days for heart failure patients,0.19882779697927333,0.008738771306139067,-0.00017174662165349522
+1,"Average (median) time patients spent in the emergency department, after the doctor decided to admit them as an inpatient before leaving the emergency department for their inpatient room A lower number of minutes is better",0.15686367088474132,0.009190457722757343,-0.0006104708579569084
+2,Payment for heart failure patients,0.13001450740669676,0.012603415579565761,-0.0012165524667044029
+3,"Patients who ""Strongly Agree"" that they understood their responsiblities in managing their health",0.12817083725389516,0.014155266971265184,0.0009742446928988465
+4,Patients who gave their hospital a rating of 7 or 8 on a scale from 0 (lowest) to 10 (highest),0.12014774798946785,0.009102709694807667,-0.002061427932171146
+5,Patients who gave their hospital a rating of 9 or 10 on a scale from 0 (lowest) to 10 (highest),0.14483179102966254,0.01695276158609266,-0.0025187174391978788
+6,"Patients who reported that their nurses ""Always"" listened carefully to them",0.1310195632818429,0.009274634774808617,0.0003440357593693204
+7,"Patients who reported that their room and bathroom were ""Always"" clean",0.1203749824641924,0.019016823851102285,0.0013697486083136554
+8,"Patients who reported that they ""Sometimes"" or ""Never"" received help as soon as they wanted",0.13885168108743975,0.02516733900994318,-0.0007291281084447655
+9,Death rate for heart failure patients,0.12562654872839837,0.038343772822912486,-0.001543674081124526
